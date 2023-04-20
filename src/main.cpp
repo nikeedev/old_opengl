@@ -43,11 +43,10 @@ int main()
 
 	// Rendering variables
 	float vertices[] = {
-		0.5f,  0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
 		-0.5f, -0.5f, 0.0f,
-		-0.5f,  0.5f, 0.0f
-	};
+        0.5f, -0.5f, 0.0f,
+		0.0f,  0.5f, 0.0f
+    };  
 
 	/* triangle stuff */
 
@@ -64,23 +63,14 @@ int main()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 
-	unsigned int indices[] = { 
-		0, 1, 3,
-		1, 2, 3
-	};
-
-	unsigned int EBO;
-	glGenBuffers(1, &EBO);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
 	// Vertex
 	const char* vertexShaderSource = "#version 330 core\n"
 		"layout (location = 0) in vec3 aPos;\n"
+		"out vec4 color;\n"
 		"void main()\n"
 		"{\n"
-		"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+		"   gl_Position = vec4(aPos, 1.0);\n"
+		"   color = vec4(0.2, 0.4, 0.8, 1.0);\n"
 		"}\0";
 
 	unsigned int vertexShader;
@@ -107,10 +97,11 @@ int main()
 	// Fragment
 
 	const char* fragmentShaderSource = "#version 330 core\n"
+		"in vec4 color;\n"
 		"out vec4 FragColor;\n"
 		"void main()"
 		"{\n"
-		"	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+		"	FragColor = color;\n"
 		"}\0";
 
 	unsigned int fragmentShader;
@@ -158,9 +149,7 @@ int main()
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
 
-		// glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		glBindVertexArray(0);
 
@@ -169,7 +158,13 @@ int main()
 		glfwPollEvents();
 	}
 
+	glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteProgram(shaderProgram);
+
 	glfwTerminate();
+	
+	
 	return 0;
 }
 
