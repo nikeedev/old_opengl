@@ -1389,6 +1389,7 @@ static void load_GL_VERSION_1_3(GLADloadproc load) {
 	glad_glMultTransposeMatrixf = (PFNGLMULTTRANSPOSEMATRIXFPROC)load("glMultTransposeMatrixf");
 	glad_glMultTransposeMatrixd = (PFNGLMULTTRANSPOSEMATRIXDPROC)load("glMultTransposeMatrixd");
 }
+
 static void load_GL_VERSION_1_4(GLADloadproc load) {
 	if(!GLAD_GL_VERSION_1_4) return;
 	glad_glBlendFuncSeparate = (PFNGLBLENDFUNCSEPARATEPROC)load("glBlendFuncSeparate");

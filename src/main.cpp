@@ -96,6 +96,7 @@ int main()
 
 	// Fragment
 
+	
 	const char* fragmentShaderSource = "#version 330 core\n"
 		"in vec4 color;\n"
 		"out vec4 FragColor;\n"
